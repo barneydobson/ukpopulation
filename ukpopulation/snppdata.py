@@ -22,9 +22,9 @@ class SNPPData:
 
         self.data = {}
         self.data[utils.EN] = self.__do_england()
-        self.data[utils.WA] = self.__do_wales()
-        self.data[utils.SC] = self.__do_scotland()
-        self.data[utils.NI] = self.__do_nireland()
+        # self.data[utils.WA] = self.__do_wales()
+        # self.data[utils.SC] = self.__do_scotland()
+        # self.data[utils.NI] = self.__do_nireland()
 
         # LADs * 26 years * 91 ages * 2 genders
         # assert len(self.data) == (326+22+32+11) * 26 * 91 * 2
@@ -88,7 +88,7 @@ class SNPPData:
         # loop over datasets as needed
         for country in countries:
             # apply filters
-            retval = retval.append(self.data[country][(self.data[country].GEOGRAPHY_CODE.isin(geog_codes)) &
+            retval = retval._append(self.data[country][(self.data[country].GEOGRAPHY_CODE.isin(geog_codes)) &
                                                       (self.data[country].PROJECTED_YEAR_NAME.isin(years)) &
                                                       (self.data[country].C_AGE.isin(ages)) &
                                                       (self.data[country].GENDER.isin(genders))], ignore_index=True,
@@ -214,7 +214,7 @@ class SNPPData:
         snpp_e = self.data_api.get_data(table_internal, query_params)
 
         query_params["projected_year"] = "2032...2043"
-        snpp_e = snpp_e.append(self.data_api.get_data(table_internal, query_params))
+        snpp_e = snpp_e._append(self.data_api.get_data(table_internal, query_params))
         # make age actual year
         snpp_e.C_AGE = snpp_e.C_AGE - 101
 

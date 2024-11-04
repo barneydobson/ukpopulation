@@ -188,7 +188,7 @@ class NPPData:
         pop90plus["C_AGE"] = 90
 
         # remove the aggregated categories from the original and append the aggregate
-        ppp = ppp[ppp.C_AGE < 90].append(pop90plus, ignore_index=True, sort=False)
+        ppp = ppp[ppp.C_AGE < 90]._append(pop90plus, ignore_index=True, sort=False)
 
         return ppp
 
@@ -262,7 +262,7 @@ class NPPData:
                 # print(df.columns)
                 # print(dfagg.columns)
                 # remove the aggregated categories from the original and append the aggregate
-                df = df[~df.C_AGE.isin(a)].append(dfagg, ignore_index=True)
+                df = df[~df.C_AGE.isin(a)]._append(dfagg, ignore_index=True)
 
                 # add the country code
                 df["GEOGRAPHY_CODE"] = utils.CODES[country]

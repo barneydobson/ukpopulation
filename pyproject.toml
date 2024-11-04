@@ -1,0 +1,123 @@
+    [build-system]
+build-backend = "hatchling.build"
+requires = [
+  "hatch-vcs",
+  "hatchling",
+]
+
+[project]
+name = "ukpopulation"
+description = "ukpopulation software"
+readme = "README.md"
+authors = [
+  { name = "Barnaby Dobson", email = "b.dobson@imperial.ac.uk" },
+]
+requires-python = ">=3.10"
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: BSD License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Scientific/Engineering",
+  "Topic :: Scientific/Engineering :: GIS",
+  "Typing :: Typed",
+]
+dynamic = [
+  "version",
+]
+dependencies = [
+  "pandas",
+  "numpy",
+  "openpyxl",
+  "xlrd",
+  "pyexcel",
+  "ukcensusapi",
+]
+optional-dependencies.dev = [
+  "mypy",
+  "pip-tools",
+  "pre-commit",
+  "pytest",
+  "pytest-cov",
+  "pytest-mock",
+  "pytest-mypy",
+  "ruff",
+]
+
+[tool.hatch.build.targets.wheel]
+only-include = [ "ukpopulation" ]
+sources = [ "ukpopulation" ]
+
+[tool.hatch.metadata]
+license = "BSD-3-clause"                                 # Or your primary license name
+license-files = [ "LICENSE" ]
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build.hooks.vcs]
+version-file = "_version.py"
+
+[tool.ruff]
+lint.select = [ "D", "E", "F", "I" ]                                   # pydocstyle, pycodestyle, Pyflakes, isort
+lint.per-file-ignores."docs/notebooks/*" = [ "D100" ]
+lint.per-file-ignores."src/netcomp/*" = [ "D", "F" ]                   # Ignore all checks for netcomp
+lint.per-file-ignores."tests/*" = [ "D100", "D104" ]
+lint.isort.known-first-party = [ "ukpopulation" ]
+lint.isort.required-imports = [ "from __future__ import annotations" ]
+lint.pydocstyle.convention = "google"
+
+[tool.codespell]
+# skip = "src/swmmanywhere/defs/iso_converter.yml,*.inp,docs/paper/*"
+# ignore-words-list = "gage,gages,Carrer"
+
+[tool.pytest.ini_options]
+addopts = "-v --cov=ukpopulation --cov-report=xml --doctest-modules"
+
+[tool.coverage.report]
+exclude_lines = [
+  "if TYPE_CHECKING:",
+]
+omit = [
+  "**/__init__.py",
+]
+ignore_errors = true
+
+[tool.coverage.paths]
+source = [ "ukpopulation", "*/site-packages" ]
+omit = [
+  "**/__init__.py",
+]
+
+[tool.coverage.run]
+branch = true
+source = [
+  "ukpopulation",
+]
+omit = [
+  "**/__init__.py",
+]
+
+[tool.mypy]
+disallow_any_explicit = false
+disallow_any_generics = false
+warn_unreachable = true
+warn_unused_ignores = false
+disallow_untyped_defs = false
+exclude = [ ".venv/" ]
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+disallow_untyped_defs = false
+
+[tool.refurb]
+ignore = [
+  184, # Because some frankly bizarre suggestions
+  109, # Because pyyaml doesn't support tuples
+]

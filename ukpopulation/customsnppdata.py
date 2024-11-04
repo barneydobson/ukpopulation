@@ -130,10 +130,10 @@ class CustomSNPPData:
                 data = data.merge(scaling[["GENDER", "C_AGE", "OBS_VALUE"]], on=["GENDER", "C_AGE"])
                 data["OBS_VALUE"] = data.OBS_VALUE_x * data.OBS_VALUE_y
                 data.PROJECTED_YEAR_NAME = year
-                all_years = all_years.append(data.drop(["OBS_VALUE_x", "OBS_VALUE_y"], axis=1), ignore_index=True,
+                all_years = all_years._append(data.drop(["OBS_VALUE_x", "OBS_VALUE_y"], axis=1), ignore_index=True,
                                              sort=False)
 
-            all_codes_all_years = all_codes_all_years.append(all_years, ignore_index=True, sort=False)
+            all_codes_all_years = all_codes_all_years._append(all_years, ignore_index=True, sort=False)
 
         return all_codes_all_years
 
@@ -167,7 +167,7 @@ class CustomSNPPData:
 
             # return if there's nothing in the NPP range
             if not in_range:
-                result.append(pre_data)
+                result._append(pre_data)
                 continue
 
             data = self.extrapolate(npp, geog_code, in_range).sort_values(
@@ -182,6 +182,6 @@ class CustomSNPPData:
             data.OBS_VALUE = data.OBS_VALUE * scaling.OBS_VALUE
 
             # prepend any pre-NPP data
-            result = result.append(pre_data.append(data))
+            result = result._append(pre_data._append(data))
 
         return result

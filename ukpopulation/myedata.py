@@ -67,7 +67,7 @@ class MYEData:
                                    (self.data[year].C_AGE.isin(ages)) &
                                    (self.data[year].GENDER.isin(genders))].copy()
             part["PROJECTED_YEAR_NAME"] = year
-            result = result.append(part)
+            result = result._append(part)
 
         return result.reset_index(drop=True)
 
